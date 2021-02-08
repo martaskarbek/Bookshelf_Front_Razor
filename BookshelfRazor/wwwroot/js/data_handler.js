@@ -7,7 +7,7 @@ export let dataHandler = {
         // loads data from API, parses it and calls the callback with it
         fetch(url, {
             method: 'GET',
-            credentials: 'same-origin'
+            credentials: 'same-origin',
         })
             .then(response => response.json())  // parse the response as JSON
             .then(json_response => callback(json_response));  // Call the `callback` with the returned object
@@ -15,7 +15,7 @@ export let dataHandler = {
 
     getBooks: function () {
         this._api_get(`https://localhost:5001/UserBooks`, (data) => {
-            site.displayBooks(data)
+            site.showBooks(data)
         })
     },
     
