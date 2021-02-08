@@ -7,29 +7,29 @@ import {dataHandler} from "./data_handler.js";
 
 let container = document.querySelector("#mainContainer");
 
-window.addEventListener('DOMContentLoaded', () => site.init());
+window.addEventListener('DOMContentLoaded', () => main.init());
 
 
-export let site = {
+ let main = {
 
     init: function () {
         // This function should run once, when the page is loaded.
-        this.loadBooks()
+        this.showBooks()
     },
 
-    loadBooks: function () {
-       dataHandler.getBooks();
+    //loadBooks: function (data) {
+            
       
+    //},
 
-    },
+    showBooks: function () {
 
-    showBooks: function (data) {
-        console.log(data)
-
-        let bookList = '';
-        for (let item of data) {
-
-            bookList += `
+        dataHandler.getBooks(function (data) {
+            console.log(data)
+            let bookList = '';
+            for (let item of data) {
+                console.log(item);
+                bookList += `
                 
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
@@ -38,12 +38,14 @@ export let site = {
                     <p class="card-text">${item.book.genre.name}</p>
                     </div>
                 </div>
-
+            
             `;
             
-            container.insertAdjacentHTML("beforeend", bookList);
-            
-        }
+                container.insertAdjacentHTML("beforeend", bookList);
+                bookList = "";
+                
+            }
+        });
     }
 }
 
