@@ -29,14 +29,36 @@ window.addEventListener('DOMContentLoaded', () => main.init());
             let bookList = '';
             for (let item of data) {
                 console.log(item);
-                bookList += `
+                let publicBtn = '';
+                let borrowedBtn= '';
+
+                if(item.isPublic) {
+                    publicBtn = "<a href=\"#\" class=\"btn btn-outline-secondary btn-sm\">Make Private</a>"
+                    
+                }else {
+                    publicBtn = "<a href=\"#\" class=\"btn btn-outline-secondary btn-sm\">Make Public</a>"
+                }
+
+                if(item.borrowed) {
+                    borrowedBtn = "<a href=\"#\" class=\"btn btn-outline-secondary btn-sm\">Returned</a>"
+                }else {
+                    borrowedBtn = "<a href=\"#\" class=\"btn btn-outline-secondary btn-sm\">Borrowed</a>"
+                }
                 
-                <div class="card" style="width: 18rem;">
+                
+                bookList += `
+<!--                style="width: 18rem;-->
+                
+                <div class="col-sm-3">
+                <div class="card mb-3" ">
                     <div class="card-body">
                     <h5 class="card-title">${item.book.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${item.book.author.firstName} ${item.book.author.lastName} </h6>
                     <p class="card-text">${item.book.genre.name}</p>
+                    ${publicBtn}
+                    ${borrowedBtn}
                     </div>
+                </div>
                 </div>
             
             `;
