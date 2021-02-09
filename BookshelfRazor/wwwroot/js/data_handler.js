@@ -17,6 +17,8 @@ export let dataHandler = {
     _api_two: async function (url) {
         const response = await fetch(url, {
             method: 'GET',
+         
+           // mode : 'no-cors',
             credentials: 'same-origin'
         })
         const json = await response.json()
