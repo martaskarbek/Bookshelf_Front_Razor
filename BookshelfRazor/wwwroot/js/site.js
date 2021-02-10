@@ -35,20 +35,20 @@ window.addEventListener('DOMContentLoaded', () => main.init());
                 let borrowedBtn= '';
 
                 if (item.isPublic) {
-                    publicBtn = `<button type="submit" data-id="${item.id}" class=\"borrowed btn btn-outline-secondary btn-sm\">Make Private</button>`
-                    //publicBtn = `<a href=\"#\" data-id="${ item.id }" class=\"borrowed btn btn-outline-secondary btn-sm\">Make Private</a>`
+                    publicBtn = `<button type="submit" data-id="${item.id}" 
+                        class=\"publicPrivate btn btn-outline-secondary btn-sm\">Make Private</button>`
 
                 } else {
-                    publicBtn = `<button type="submit" data-id="${item.id}" class=\"borrowed btn btn-outline-secondary btn-sm\">Make Public</button>`
-                    //publicBtn = `<a href=\"#\" data-id="${ item.id }" class=\"borrowed btn btn-outline-secondary btn-sm\">Make Public</a>`
+                    publicBtn = `<button type="submit" data-id="${item.id}" 
+                        class=\"publicPrivate btn btn-outline-secondary btn-sm\">Make Public</button>`
                 }
 
                 if (item.borrowed) {
-                    borrowedBtn = `<button type="submit" data-id="${item.id}" class=\"borrowed btn btn-outline-secondary btn-sm\">Returned</button>`
-                   // borrowedBtn = `<a href=\"#\" data-id="${item.id}" class=\"btn btn-outline-secondary btn-sm\">Returned</a>`
+                    borrowedBtn = `<button type="submit" data-id="${item.id}" 
+                        class=\"borrowed btn btn-outline-secondary btn-sm\">Borrowed</button>`
                 } else {
-                    borrowedBtn = `<button type="submit" data-id="${item.id}" class=\"borrowed btn btn-outline-secondary btn-sm\">Borrowed</button>`
-                    //borrowedBtn = `<a href=\"#\" data-id="${item.id}" class=\"btn btn-outline-secondary btn-sm\">Borrowed</a>`
+                    borrowedBtn = `<button type="submit" data-id="${item.id}" 
+                        class=\"borrowed btn btn-outline-secondary btn-sm\">On my shelf</button>`
                 }
                 
                 
@@ -69,20 +69,29 @@ window.addEventListener('DOMContentLoaded', () => main.init());
                 container.insertAdjacentHTML("beforeend", bookList);
                 bookList = "";
             }
-            const buttons = document.querySelectorAll(".borrowed");
-            buttons.forEach(button => button.addEventListener('click', function () {
+            const borrowedButtons = document.querySelectorAll(".borrowed");
+            borrowedButtons.forEach(button => button.addEventListener('click', function () {
                 const id = this.getAttribute("data-id");
-                //updateBorrowed(id);
+                updateBorrowed(id, "borrowed");
+            }));
+
+            const isPublicButtons = document.querySelectorAll(".publicPrivate");
+            isPublicButtons.forEach(button => button.addEventListener('click', function () {
+                const id = this.getAttribute("data-id");
+                updateBorrowed(id, "isPublic");
             }));
         });
-
-
     }
 }
 
-
-function updateBorrowed(ubid) {
-    fetch(`https://localhost:5001/UserBooks/?id=${ubid}`, {
+function updateBorrowed(ubid, recordToUpdate) {
+    let link =""
+     if (recordToUpdate === "borrowed"){
+         link = `https://localhost:5001/UserBooks/UpdateBorrowedStatus/${ubid}`
+     }else{
+         link = `https://localhost:5001/UserBooks/UpdateIsPublicStatus/${ubid}`
+     }
+    fetch(link, {
         // mode: 'cors',
         method: "PUT",
         credentials: 'same-origin',
@@ -92,6 +101,3 @@ function updateBorrowed(ubid) {
     })
 }
 
-const dupa = document.querySelector("#dupa");
-dupa.addEventListener('click', ()=> (console.log("dupa dupa")));
-dupa.addEventListener('click', updateBorrowed("def9c864-7423-49f6-8ff6-5b96096c7341"));
