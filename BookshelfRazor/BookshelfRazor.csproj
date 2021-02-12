@@ -20,4 +20,8 @@
       <TypeScriptSourceRoot />
     </PropertyGroup>
 
+    <ItemGroup>
+      <Folder Include="wwwroot\images" />
+    </ItemGroup>
+
 </Project>

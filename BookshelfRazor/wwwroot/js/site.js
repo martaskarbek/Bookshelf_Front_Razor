@@ -33,6 +33,7 @@ function showBooks() {
             bookList += `
                  <div class="col-sm-3">
                 <div class="card mb-3" ">
+                <img class="card-img-top" src="${item.book.coverPath}" alt="Cover Image">
                     <div class="card-body">
                     <h5 class="card-title">${item.book.title}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">${item.book.author.firstName} ${item.book.author.lastName} </h6>
@@ -47,12 +48,12 @@ function showBooks() {
 
         mainContainer.innerHTML += bookList;
         bookList = "";
-        
+
         const borrowedButtons = document.querySelectorAll(".borrowed");
         borrowedButtons.forEach(button => button.addEventListener('click', function () {
             const id = this.getAttribute("data-id");
             updateState(id, "borrowed");
-       }));
+        }));
 
         const isPublicButtons = document.querySelectorAll(".publicPrivate");
         isPublicButtons.forEach(button => button.addEventListener('click', function () {
@@ -70,11 +71,10 @@ async function updateState(ubid, recordToUpdate) {
     let url = ""
     if (recordToUpdate === "borrowed") {
         url = `https://localhost:5001/UserBooks/UpdateBorrowedStatus/${ubid}`
-    }else if (recordToUpdate === "isPublic") {
+    } else if (recordToUpdate === "isPublic") {
         url = `https://localhost:5001/UserBooks/UpdateIsPublicStatus/${ubid}`
     }
     await dataHandler._api_put(url)
     showBooks();
-
 }
 
